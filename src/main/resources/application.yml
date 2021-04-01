@@ -9,6 +9,7 @@ logging:
   level:
     org:
       atmosphere: warn
+    com.example.application: debug
 
 
 config:

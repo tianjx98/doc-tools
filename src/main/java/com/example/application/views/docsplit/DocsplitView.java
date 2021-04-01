@@ -10,6 +10,8 @@ import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.vaadin.olli.FileDownloadWrapper;
 
@@ -35,6 +37,7 @@ import com.vaadin.flow.server.StreamResource;
 @PageTitle("doc-split")
 @CssImport("./views/docsplit/docsplit-view.css")
 public class DocsplitView extends HorizontalLayout {
+    private static final Logger logger = LoggerFactory.getLogger(DocsplitView.class);
 
     // private TextField name;
     private Button refreshDoc;
@@ -85,15 +88,18 @@ public class DocsplitView extends HorizontalLayout {
             try {
                 Notification.show(pullDoc());
                 remove(fileTree);
-                load();
+                addFileTree();
             } catch (IOException | InterruptedException exception) {
+                exception.printStackTrace();
                 Notification.show("更新文档失败: " + exception.getMessage());
             }
         });
     }
 
     private String pullDoc() throws IOException, InterruptedException {
-        return CmdUtil.execCmd(String.format("git --git-dir=%s/.git --work-tree=%s pull", repoPath, repoPath));
+        final String cmd = String.format("git --git-dir=%s/.git --work-tree=%s pull", repoPath, repoPath);
+        logger.debug("获取最新文档: {}", cmd);
+        return CmdUtil.execCmd(cmd);
     }
 
     private TreeGrid<DocSegment> createFileTree() throws IOException {
