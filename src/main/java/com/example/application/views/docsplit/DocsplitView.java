@@ -10,8 +10,6 @@ import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.vaadin.olli.FileDownloadWrapper;
 
@@ -32,12 +30,14 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouteAlias;
 import com.vaadin.flow.server.StreamResource;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Route(value = "split", layout = MainView.class)
 @RouteAlias(value = "", layout = MainView.class)
 @PageTitle("doc-split")
 @CssImport("./views/docsplit/docsplit-view.css")
+@Slf4j
 public class DocsplitView extends HorizontalLayout {
-    private static final Logger logger = LoggerFactory.getLogger(DocsplitView.class);
 
     // private TextField name;
     private Button refreshDoc;
@@ -98,7 +98,7 @@ public class DocsplitView extends HorizontalLayout {
 
     private String pullDoc() throws IOException, InterruptedException {
         final String cmd = String.format("git --git-dir=%s/.git --work-tree=%s pull", repoPath, repoPath);
-        logger.debug("获取最新文档: {}", cmd);
+        log.debug("获取最新文档: {}", cmd);
         return CmdUtil.execCmd(cmd);
     }
 
