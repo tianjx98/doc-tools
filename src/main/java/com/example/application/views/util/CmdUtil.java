@@ -24,8 +24,8 @@ public class CmdUtil {
         log.debug("exitValue: {}", process.exitValue());
         final InputStream inputStream = process.getInputStream();
         log.debug(inputStream.toString());
-        final String s = StreamUtils.copyToString(inputStream, Charset.defaultCharset())
-                        + StreamUtils.copyToString(process.getErrorStream(), Charset.defaultCharset());
+        final String s = StreamUtils.copyToString(inputStream, Charset.defaultCharset());
+                        //+ StreamUtils.copyToString(process.getErrorStream(), Charset.defaultCharset());
         return s;
     }
 }
