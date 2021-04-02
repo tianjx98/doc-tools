@@ -1,6 +1,7 @@
 package com.example.application.views.docsplit;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -98,8 +99,8 @@ public class DocsplitView extends HorizontalLayout {
 
     private String pullDoc() throws IOException, InterruptedException {
         final String cmd = String.format("git --git-dir=%s/.git --work-tree=%s pull", repoPath, repoPath);
-        System.out.println(CmdUtil.execCmd("ll"));
-        return CmdUtil.execCmd(cmd);
+        //System.out.println(CmdUtil.execCmd("ll"));
+        return CmdUtil.execCmd(cmd, new File(repoPath));
     }
 
     private TreeGrid<DocSegment> createFileTree() throws IOException {
