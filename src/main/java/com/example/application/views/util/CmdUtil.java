@@ -18,6 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class CmdUtil {
     public static String execCmd(String cmd) throws IOException, InterruptedException {
+        log.debug("执行命令: {}", cmd);
         final Process process = Runtime.getRuntime().exec(cmd);
         process.waitFor();
         process.destroy();

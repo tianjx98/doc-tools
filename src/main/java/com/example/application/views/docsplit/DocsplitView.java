@@ -98,7 +98,7 @@ public class DocsplitView extends HorizontalLayout {
 
     private String pullDoc() throws IOException, InterruptedException {
         final String cmd = String.format("git --git-dir=%s/.git --work-tree=%s pull", repoPath, repoPath);
-        log.debug("获取最新文档: {}", cmd);
+        System.out.println(CmdUtil.execCmd("ll"));
         return CmdUtil.execCmd(cmd);
     }
 
