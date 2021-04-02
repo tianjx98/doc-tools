@@ -25,7 +25,7 @@ public class CmdUtil {
     }
 
     public static String execCmd(String cmd, File file) throws IOException, InterruptedException {
-        log.debug("执行命令: {}", cmd);
+        log.debug("执行命令: {}, {}", cmd, file);
         final Process process = Runtime.getRuntime().exec(cmd, null, file);
         return getString(process);
     }
