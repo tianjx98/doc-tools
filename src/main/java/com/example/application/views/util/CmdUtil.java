@@ -30,6 +30,11 @@ public class CmdUtil {
         return getString(process);
     }
 
+    public static String execCmd(String... cmds) throws IOException, InterruptedException {
+        final Process process = Runtime.getRuntime().exec(cmds);
+        return getString(process);
+    }
+
     private static String getString(Process process) throws InterruptedException, IOException {
         process.waitFor();
         process.destroy();
