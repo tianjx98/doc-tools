@@ -1,5 +1,8 @@
 server:
   port: ${PORT:80}
+  compression:
+    enabled: true
+    mime-types: application/json,application/xml,text/html,text/xml,text/plain,application/javascript,text/css
 # Ensure application is run in Vaadin 14/npm mode
 vaadin:
   compatibilityMode: false
