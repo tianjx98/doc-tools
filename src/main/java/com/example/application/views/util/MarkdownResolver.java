@@ -12,6 +12,8 @@ import org.springframework.util.CollectionUtils;
 import com.example.application.views.util.split.DocSegment;
 import com.example.application.views.util.split.SegmentType;
 
+import lombok.extern.slf4j.Slf4j;
+
 
 /**
  * <p>
@@ -21,6 +23,7 @@ import com.example.application.views.util.split.SegmentType;
  * @author junxiong.tian@hand-china.com 2021/3/16 9:32
  */
 // @Component
+@Slf4j
 public class MarkdownResolver {
     /**
      * 项目绝对路径
@@ -89,7 +92,9 @@ public class MarkdownResolver {
     }
 
     private static List<DocSegment> extractAllSegments(String filename) throws IOException {
-        final List<String> lines = Files.readAllLines(Paths.get(ROOT, "document/", filename));
+        final Path path = Paths.get(ROOT, "document/", filename);
+        log.debug("获取文档信息: {}", path);
+        final List<String> lines = Files.readAllLines(path);
         final String name = filename.substring(0, filename.lastIndexOf("."));
         final List<DocSegment> segments = new LinkedList<>();
         for (int startLevel = 0; startLevel < 6; startLevel++) {

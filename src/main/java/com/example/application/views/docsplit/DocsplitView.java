@@ -4,6 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -11,6 +12,7 @@ import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.util.ResourceUtils;
 import org.vaadin.olli.FileDownloadWrapper;
 
 import com.example.application.views.main.MainView;
@@ -87,7 +89,7 @@ public class DocsplitView extends HorizontalLayout {
         refreshDoc.addClickListener(e -> {
             try {
                 Notification.show(pullDoc());
-                remove(fileTree);
+                //remove(fileTree);
                 addFileTree();
             } catch (IOException | InterruptedException exception) {
                 exception.printStackTrace();
@@ -99,12 +101,13 @@ public class DocsplitView extends HorizontalLayout {
     private String pullDoc() throws IOException, InterruptedException {
         final String cmd = String.format("git --git-dir=%s/.git --work-tree=%s pull", repoPath, repoPath);
         //System.out.println(CmdUtil.execCmd("ll"));
-        return CmdUtil.execCmd("/bin/sh", cmd);
+        return CmdUtil.execCmd(cmd);
     }
 
     private TreeGrid<DocSegment> createFileTree() throws IOException {
         TreeGrid<DocSegment> grid = new TreeGrid<>();
         grid.addHierarchyColumn(DocSegment::getSegmentName).setHeader("文档名");
+        Arrays.stream(Objects.requireNonNull(ResourceUtils.getFile(Path.of(repoPath, "document").toUri()).listFiles())).forEach(f -> System.out.println(f.getAbsolutePath()));
         final List<DocSegment> segments = Files.list(Path.of(repoPath, "document"))
                         .map(path -> path.getFileName().toString()).map(fileName -> {
                             try {
