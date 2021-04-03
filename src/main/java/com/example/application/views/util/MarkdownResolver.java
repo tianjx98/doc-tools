@@ -36,12 +36,12 @@ public class MarkdownResolver {
                 "汉得汇税通-进项通道服务接口文档_UAT_V1.1.md", "汉得汇税通-进项通道服务接口文档_V2.9.md", "汉得汇税通-销项通道服务接口文档_UAT_V1.0.md",
                 "汉得汇税通-销项通道服务接口文档_V1.5.md"};
         for (String filename : filenames) {
-            resolve(filename);
+            resolve(ROOT, filename);
         }
     }
 
-    public static DocSegment resolve(String originFilename) throws IOException {
-        final Map<SegmentType, List<DocSegment>> segmentsMap = extractAllSegments(originFilename).stream()
+    public static DocSegment resolve(String repoPath, String originFilename) throws IOException {
+        final Map<SegmentType, List<DocSegment>> segmentsMap = extractAllSegments(repoPath, originFilename).stream()
                         .collect(Collectors.groupingBy(DocSegment::getSegmentType));
         final List<DocSegment> interfaces = segmentsMap.get(SegmentType.INTERFACE);
         final DocSegment summarize = Optional.ofNullable(segmentsMap.get(SegmentType.DOC_SUMMARIZE))
@@ -55,10 +55,6 @@ public class MarkdownResolver {
         final DocSegment legacyAndClosedIssues =
                         Optional.ofNullable(segmentsMap.get(SegmentType.LEGACY_AND_CLOSED_ISSUES))
                                         .orElse(Collections.singletonList(null)).get(0);
-        // for (DocSegment itf : interfaces) {
-        // writeDoc(originFilename, itf.getFileName(), summarize, callInstruction, itf, lov, appendix,
-        // legacyAndClosedIssues);
-        // }
 
         final DocSegment parent = DocSegment.builder().segmentName(originFilename).interfaces(interfaces)
                         .summarize(summarize).callInstruction(callInstruction).lov(lov).appendix(appendix)
@@ -91,8 +87,8 @@ public class MarkdownResolver {
         Files.write(itfPath, lines);
     }
 
-    private static List<DocSegment> extractAllSegments(String filename) throws IOException {
-        final Path path = Paths.get(ROOT, "document/", filename);
+    private static List<DocSegment> extractAllSegments(String repoPath, String filename) throws IOException {
+        final Path path = Paths.get(repoPath, "document/", filename);
         log.debug("获取文档信息: {}", path);
         final List<String> lines = Files.readAllLines(path);
         final String name = filename.substring(0, filename.lastIndexOf("."));

@@ -1,26 +1,29 @@
 package com.example.application.views.docsplit;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 
+import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.TransportConfigCallback;
+import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.transport.*;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.util.ResourceUtils;
 import org.vaadin.olli.FileDownloadWrapper;
 
 import com.example.application.views.main.MainView;
-import com.example.application.views.util.CmdUtil;
 import com.example.application.views.util.DocDownloadUtil;
 import com.example.application.views.util.MarkdownResolver;
 import com.example.application.views.util.dto.DocDownloadDTO;
 import com.example.application.views.util.split.DocSegment;
+import com.jcraft.jsch.Session;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.grid.Grid;
@@ -57,7 +60,7 @@ public class DocsplitView extends HorizontalLayout {
     @PostConstruct
     public void load() throws IOException {
         addButtons();
-        //addFileTree();
+        addFileTree();
     }
 
     private void addFileTree() throws IOException {
@@ -77,7 +80,7 @@ public class DocsplitView extends HorizontalLayout {
 
     private void addDocDownloadButton() {
         downloadDoc = new Button("下载文档");
-        wrapper = new FileDownloadWrapper(new StreamResource("", ()->new ByteArrayInputStream(new byte[0])));
+        wrapper = new FileDownloadWrapper(new StreamResource("", () -> new ByteArrayInputStream(new byte[0])));
         wrapper.wrapComponent(downloadDoc);
         add(wrapper);
     }
@@ -88,30 +91,45 @@ public class DocsplitView extends HorizontalLayout {
         setVerticalComponentAlignment(Alignment.END, refreshDoc);
         refreshDoc.addClickListener(e -> {
             try {
-                Notification.show(pullDoc());
-                //remove(fileTree);
+                if (!pullDoc()) {
+                    throw new RuntimeException("未知错误");
+                }
+                Notification.show("文档更新成功");
+                remove(fileTree);
                 addFileTree();
-            } catch (IOException | InterruptedException exception) {
+            } catch (GitAPIException | IOException | InterruptedException exception) {
                 exception.printStackTrace();
                 Notification.show("更新文档失败: " + exception.getMessage());
             }
         });
     }
 
-    private String pullDoc() throws IOException, InterruptedException {
-        final String cmd = String.format("git --git-dir=%s/.git --work-tree=%s pull", repoPath, repoPath);
-        //System.out.println(CmdUtil.execCmd("ll"));
-        return CmdUtil.execCmd(cmd);
+    private boolean pullDoc() throws IOException, InterruptedException, GitAPIException {
+        // final String cmd = String.format("git --git-dir=%s/.git --work-tree=%s pull", repoPath,
+        // repoPath);
+        // return CmdUtil.execCmd("/mnt/d/Code/vaddin/tools/pull.sh");
+
+        final Git git = Git.open(new File(repoPath));
+        SshSessionFactory sshSessionFactory = new JschConfigSessionFactory() {
+            @Override
+            protected void configure(OpenSshConfig.Host hc, Session session) {}
+        };
+        return git.pull().setRebase(true).setTransportConfigCallback(new TransportConfigCallback() {
+            @Override
+            public void configure(Transport transport) {
+                SshTransport sshTransport = (SshTransport) transport;
+                sshTransport.setSshSessionFactory(sshSessionFactory);
+            }
+        }).call().isSuccessful();
     }
 
     private TreeGrid<DocSegment> createFileTree() throws IOException {
         TreeGrid<DocSegment> grid = new TreeGrid<>();
         grid.addHierarchyColumn(DocSegment::getSegmentName).setHeader("文档名");
-        Arrays.stream(Objects.requireNonNull(ResourceUtils.getFile(Path.of(repoPath, "document").toUri()).listFiles())).forEach(f -> System.out.println(f.getAbsolutePath()));
         final List<DocSegment> segments = Files.list(Path.of(repoPath, "document"))
                         .map(path -> path.getFileName().toString()).map(fileName -> {
                             try {
-                                return MarkdownResolver.resolve(fileName);
+                                return MarkdownResolver.resolve(repoPath, fileName);
                             } catch (Exception e) {
                                 return null;
                             }
