@@ -26,14 +26,19 @@ jobs:
 #         mvn vaadin:build-frontend
 #         mvn package -Pproduction
 #         mvn spring-boot:run -Dvaadin.productionMode=true
-    - name: ls -a via ssh
-      uses: fifsky/ssh-action@master
-      with:
-        host: ${{ secrets.DEPLOY_HOST }}
-        user: root
-        key: ${{ secrets.DEPLOY_PRIVATE_KEY }} 
-        command: |
-          cd /home/tian
-          ll
-      
+#     - name: ls -a via ssh
+#       uses: fifsky/ssh-action@master
+#       with:
+#         host: ${{ secrets.DEPLOY_HOST }}
+#         user: root
+#         key: ${{ secrets.DEPLOY_PRIVATE_KEY }} 
+#         command: |
+#           cd /home/tian
+#           ll
+    - name: ssh
+      run: |
+        echo ${{ secrets.DEPLOY_PRIVATE_KEY }} >> auth.txt
+        ssh -i auth.txt root@${{ secrets.DEPLOY_HOST }}
+        cd /home/tian
+        ll
       
