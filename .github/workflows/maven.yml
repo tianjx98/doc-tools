@@ -32,7 +32,7 @@ jobs:
         WELCOME: "ssh pipeline"
       with:
         host: ${{ secrets.DEPLOY_HOST }}
-        user: ${{ secrets.DC_USER }}
+        user: root
         key: ${{ secrets.DEPLOY_PRIVATE_KEY}}
         connect_timeout: 10s
         script: |
