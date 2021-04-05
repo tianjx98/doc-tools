@@ -26,17 +26,14 @@ jobs:
 #         mvn vaadin:build-frontend
 #         mvn package -Pproduction
 #         mvn spring-boot:run -Dvaadin.productionMode=true
-    - name: ssh pipelines
-      uses: cross-the-world/ssh-pipeline@master
-      env:
-        WELCOME: "ssh pipeline"
+    - name: ls -a via ssh
+      uses: fifsky/ssh-action@master
       with:
         host: ${{ secrets.DEPLOY_HOST }}
         user: root
-        pass: ${{ secrets.DEPLOY_PRIVATE_KEY}}
-        connect_timeout: 10s
-        script: |
-          cd /home/tian/
+        key: ${{ secrets.DEPLOY_PRIVATE_KEY }} 
+        command: |
+          cd /home/tian
           ll
       
       
