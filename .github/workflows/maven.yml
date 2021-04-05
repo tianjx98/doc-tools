@@ -23,6 +23,7 @@ jobs:
         java-version: 11
     - name: Build and run
       run: |
+        mvn vaadin:build-frontend
         mvn package -Pproduction
         mvn spring-boot:run -Dvaadin.productionMode=true
       
