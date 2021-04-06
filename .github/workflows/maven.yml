@@ -23,7 +23,7 @@ jobs:
             cd /tmp
             ls -a
             echo "1234"
-          host: ${{ secrets.HOST }}
+          host: 18.177.82.195
           user: root
           key: ${{ secrets.DEPLOY_PRIVATE_KEY }}
 
