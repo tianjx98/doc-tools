@@ -24,7 +24,7 @@ jobs:
             git pull
             kill -9 $(lsof -t -sTCP:LISTEN -i:80)
             mvn package -Pproduction
-            mvn spring-boot:run -Dvaadin.productionMode=true
+            nohup mvn spring-boot:run -Dvaadin.productionMode=true > doc-tools.log &
 
           host: ${{ secrets.DEPLOY_HOST }}
           user: root
