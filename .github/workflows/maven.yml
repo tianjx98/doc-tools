@@ -38,7 +38,7 @@ jobs:
     - name: ssh
       run: |
         echo ${{ secrets.DEPLOY_PRIVATE_KEY }} >> auth.txt
-        ssh -i "auth.txt" root@${{ secrets.DEPLOY_HOST }}
+        ssh -i ./auth.txt root@${{ secrets.DEPLOY_HOST }}
         cd /home/tian
         ll
       
