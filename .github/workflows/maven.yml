@@ -16,18 +16,18 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: ls -a via OPEN SSH Private Key
+      - name: 登录到服务器拉取代码重新启动
         uses: fifsky/ssh-action@master
         with:
           command: |
-            cd /tmp
-            ls -a
-            echo "1234"
-          host: 18.177.82.195
+            cd /home/tian/doc-util/doc-tools
+            git pull
+            mvn package -Pproduction
+            mvn spring-boot:run -Dvaadin.productionMode=true
+          host: ${{ secrets.DEPLOY_HOST }}
           user: root
           pass: ${{ secrets.DEPLOY_PASSWORD }}
-#           key: ${{ secrets.DEPLOY_PRIVATE_KEY }}
-          args: "-tt -vvv"
+          args: "-tt"
 
       
 
