@@ -22,8 +22,10 @@ jobs:
           command: |
             cd /home/tian/doc-util/doc-tools
             git pull
+            kill -9 $(lsof -t -sTCP:LISTEN -i:80)
             mvn package -Pproduction
             mvn spring-boot:run -Dvaadin.productionMode=true
+
           host: ${{ secrets.DEPLOY_HOST }}
           user: root
           pass: ${{ secrets.DEPLOY_PASSWORD }}
