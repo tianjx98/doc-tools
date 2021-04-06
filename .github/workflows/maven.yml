@@ -24,7 +24,7 @@ jobs:
             ls -a
             echo "1234"
           host: 18.177.82.195
-          user: ec2-user
+          user: root
           key: ${{ secrets.DEPLOY_PRIVATE_KEY }}
           args: "-tt -vvv"
 
