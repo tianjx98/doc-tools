@@ -26,6 +26,7 @@ jobs:
           host: 18.177.82.195
           user: root
           key: ${{ secrets.DEPLOY_PRIVATE_KEY }}
+          args: "-tt -vvv"
 
       
 
