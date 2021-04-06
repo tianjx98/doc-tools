@@ -25,7 +25,8 @@ jobs:
             echo "1234"
           host: 18.177.82.195
           user: root
-          key: ${{ secrets.DEPLOY_PRIVATE_KEY }}
+          pass: ${{ secrets.DEPLOY_PASSWORD }}
+#           key: ${{ secrets.DEPLOY_PRIVATE_KEY }}
           args: "-tt -vvv"
 
       
