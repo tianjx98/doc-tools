@@ -89,7 +89,6 @@ public class MarkdownResolver {
 
     private static List<DocSegment> extractAllSegments(String repoPath, String filename) throws IOException {
         final Path path = Paths.get(repoPath, "document/", filename);
-        log.debug("获取文档信息: {}", path);
         final List<String> lines = Files.readAllLines(path);
         final String name = filename.substring(0, filename.lastIndexOf("."));
         final List<DocSegment> segments = new LinkedList<>();

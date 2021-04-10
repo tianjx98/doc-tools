@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
@@ -65,9 +66,10 @@ public class DocsplitView extends HorizontalLayout {
 
     private void addFileTree() throws IOException {
         fileTree = createFileTree();
-        fileTree.setSelectionMode(Grid.SelectionMode.MULTI);
+        fileTree.setSelectionMode(Grid.SelectionMode.SINGLE);
         fileTree.addSelectionListener(e -> {
-            final DocDownloadDTO downloadFile = DocDownloadUtil.download(fileTree.getSelectedItems());
+            final Set<DocSegment> selectedItems = fileTree.getSelectedItems();
+            final DocDownloadDTO downloadFile = DocDownloadUtil.download(selectedItems);
             wrapper.setResource(new StreamResource(downloadFile.getFileName(), downloadFile.getFactory()));
         });
         add(fileTree);
