@@ -1,7 +1,6 @@
 package com.example.application.views.docsplit;
 
 import java.io.ByteArrayInputStream;
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -12,19 +11,16 @@ import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 
-import org.eclipse.jgit.api.Git;
-import org.eclipse.jgit.api.TransportConfigCallback;
 import org.eclipse.jgit.api.errors.GitAPIException;
-import org.eclipse.jgit.transport.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.vaadin.olli.FileDownloadWrapper;
 
 import com.example.application.views.main.MainView;
 import com.example.application.views.util.DocDownloadUtil;
+import com.example.application.views.util.GitUtil;
 import com.example.application.views.util.MarkdownResolver;
 import com.example.application.views.util.dto.DocDownloadDTO;
 import com.example.application.views.util.split.DocSegment;
-import com.jcraft.jsch.Session;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.grid.Grid;
@@ -45,7 +41,6 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class DocsplitView extends HorizontalLayout {
 
-    // private TextField name;
     private Button refreshDoc;
     private Button downloadDoc;
     private FileDownloadWrapper wrapper;
@@ -67,6 +62,7 @@ public class DocsplitView extends HorizontalLayout {
     private void addFileTree() throws IOException {
         fileTree = createFileTree();
         fileTree.setSelectionMode(Grid.SelectionMode.SINGLE);
+        fileTree.setHeight("800px");
         fileTree.addSelectionListener(e -> {
             final Set<DocSegment> selectedItems = fileTree.getSelectedItems();
             final DocDownloadDTO downloadFile = DocDownloadUtil.download(selectedItems);
@@ -107,22 +103,7 @@ public class DocsplitView extends HorizontalLayout {
     }
 
     private boolean pullDoc() throws IOException, InterruptedException, GitAPIException {
-        // final String cmd = String.format("git --git-dir=%s/.git --work-tree=%s pull", repoPath,
-        // repoPath);
-        // return CmdUtil.execCmd("/mnt/d/Code/vaddin/tools/pull.sh");
-
-        final Git git = Git.open(new File(repoPath));
-        SshSessionFactory sshSessionFactory = new JschConfigSessionFactory() {
-            @Override
-            protected void configure(OpenSshConfig.Host hc, Session session) {}
-        };
-        return git.pull().setRebase(true).setTransportConfigCallback(new TransportConfigCallback() {
-            @Override
-            public void configure(Transport transport) {
-                SshTransport sshTransport = (SshTransport) transport;
-                sshTransport.setSshSessionFactory(sshSessionFactory);
-            }
-        }).call().isSuccessful();
+        return GitUtil.pull(repoPath);
     }
 
     private TreeGrid<DocSegment> createFileTree() throws IOException {
