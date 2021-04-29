@@ -1,4 +1,4 @@
-package com.example.application.views.util.split;
+package com.example.application.util.split;
 
 public enum SegmentType {
     /**

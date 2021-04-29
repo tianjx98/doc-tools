@@ -1,4 +1,4 @@
-package com.example.application.views.util;
+package com.example.application.util;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -9,8 +9,8 @@ import java.util.stream.Collectors;
 
 import org.springframework.util.CollectionUtils;
 
-import com.example.application.views.util.split.DocSegment;
-import com.example.application.views.util.split.SegmentType;
+import com.example.application.util.split.DocSegment;
+import com.example.application.util.split.SegmentType;
 
 import lombok.extern.slf4j.Slf4j;
 

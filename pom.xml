@@ -190,6 +190,16 @@
             <artifactId>org.eclipse.jgit.ssh.jsch</artifactId>
             <version>5.11.0.202103091610-r</version>
         </dependency>
+        <!--        <dependency>-->
+        <!--            <groupId>org.vaadin.olli</groupId>-->
+        <!--            <artifactId>clipboardhelper</artifactId>-->
+        <!--            <version>1.1.2</version>-->
+        <!--        </dependency>-->
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>5.6.3</version>
+        </dependency>
 
     </dependencies>
 

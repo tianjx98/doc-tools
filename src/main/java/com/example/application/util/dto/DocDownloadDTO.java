@@ -1,4 +1,4 @@
-package com.example.application.views.util.dto;
+package com.example.application.util.dto;
 
 import java.io.ByteArrayInputStream;
 

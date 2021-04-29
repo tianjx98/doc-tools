@@ -1,4 +1,4 @@
-package com.example.application.views.util;
+package com.example.application.util;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -15,8 +15,8 @@ import java.util.zip.ZipOutputStream;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.util.CollectionUtils;
 
-import com.example.application.views.util.dto.DocDownloadDTO;
-import com.example.application.views.util.split.DocSegment;
+import com.example.application.util.dto.DocDownloadDTO;
+import com.example.application.util.split.DocSegment;
 
 /**
  * <p>

@@ -4,7 +4,7 @@ import java.io.OutputStream;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.example.application.views.util.split.DocSegment;
+import com.example.application.util.split.DocSegment;
 
 import lombok.Builder;
 import lombok.Data;
