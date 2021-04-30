@@ -51,6 +51,7 @@ public class AboutView extends Div {
     TextArea gTestCode;
     TextArea gRqDTO;
     TextArea gRsDTO;
+
     public AboutView() {
         addClassName("Generator");
         addComponents();
@@ -82,15 +83,15 @@ public class AboutView extends Div {
         final VerticalLayout verticalLayout = new VerticalLayout();
 
         gConstant = genTextArea("接口常量");
-        gItfMethod = genTextArea("接口方法");
-        gItfImpl = genTextArea("接口实现");
-        gRequiredAttr = genTextArea("必输请求参数");
-        gRequiredAttrSet = genTextArea("必输参数设值");
-        gTestCode = genTextArea("测试代码");
         gRqDTO = genTextArea("RqDTO");
         gRsDTO = genTextArea("RsDTO");
+        gRequiredAttr = genTextArea("必输请求参数");
+        gItfMethod = genTextArea("接口方法");
+        gItfImpl = genTextArea("接口实现");
+        gRequiredAttrSet = genTextArea("必输参数设值");
+        gTestCode = genTextArea("测试代码");
 
-        verticalLayout.add(gConstant, gItfMethod, gItfImpl, gRequiredAttr, gRequiredAttrSet, gTestCode, gRqDTO, gRsDTO);
+        verticalLayout.add(gConstant, gRqDTO, gRsDTO, gRequiredAttr, gItfMethod, gItfImpl, gRequiredAttrSet, gTestCode);
         content.add(verticalLayout);
     }
 
