@@ -125,8 +125,8 @@ public class Attr {
 
     public String getType() {
         switch (type) {
-            case "数字":
-                return "Integer";
+            // case "数字":
+            // return "Integer";
             default:
                 return "String";
         }

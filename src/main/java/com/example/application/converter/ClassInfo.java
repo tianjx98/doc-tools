@@ -34,6 +34,7 @@ public class ClassInfo {
         }
         sb = new StringBuilder();
         start();
+
         appendAttr();
         appendClass();
         end();
