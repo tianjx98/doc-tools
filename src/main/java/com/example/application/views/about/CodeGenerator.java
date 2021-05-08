@@ -29,7 +29,7 @@ public class CodeGenerator {
         final String template = "    /**\n" + "     * %s<br>\n" + "     * %s<br>\n" + "     *\n"
                         + "     * @param itfRegister 银企接口注册信息\n" + "     * @param %sRqDTOList %s 请求DTO\n"
                         + "     * @return\n" + "     */\n"
-                        + "    List<ResponseDTO> %s(ItfRegister itfRegister, List<%sRqDTO> %sRqDTOList);";
+                        + "    List<{itfNameUpperCase}RsDTO> %s(ItfRegister itfRegister, List<%sRqDTO> %sRqDTOList);";
         final String itfName = view.itfName.getValue();
         final String itfMethod = String.format(template, view.taskName.getValue(), view.bankItfName.getValue(), itfName,
                         view.taskName.getValue(), itfName, StringUtil.firstCharToUpperCase(itfName), itfName);
@@ -48,7 +48,7 @@ public class CodeGenerator {
 
     private static String getParseResponseMethod(Map<String, String> paramMap) {
         String template =
-                        "private com.hand.ebank.api.dto.Common.ResponseDTO parse{itfNameUpperCase}Response({rsClassName} rspDTO) {\n"
+                        "private {itfNameUpperCase}RsDTO parseResponse({rsClassName} rspDTO) {\n"
                                         + "        // TODO: 返回统一响应报文格式待确定 [junxiong.tian@hand-china.com, 2021/4/25 20:35]\n"
                                         + "        return null;\n" + "    }";
         return StrUtil.format(template, paramMap);
@@ -93,10 +93,10 @@ public class CodeGenerator {
 
     private static String genItfMethod(Map<String, String> paramMap) {
         String template = "@Override\n"
-                        + "    public List<com.hand.ebank.api.dto.Common.ResponseDTO> {itfName}(ItfRegister itfRegister,\n"
+                        + "    public List<{itfNameUpperCase}RsDTO> {itfName}(ItfRegister itfRegister,\n"
                         + "                    List<{itfNameUpperCase}RqDTO> {itfName}RqDTOList) {\n"
                         + "        try {\n"
-                        + "            final List<com.hand.ebank.api.dto.Common.ResponseDTO> rspDTOs = new ArrayList<>({itfName}RqDTOList.size());\n"
+                        + "            final List<{itfNameUpperCase}RsDTO> rspDTOs = new ArrayList<>({itfName}RqDTOList.size());\n"
                         + "            final {rqClassName} reqDTO = assemble{itfNameUpperCase}RequestDTO(itfRegister, {itfName}RqDTOList);\n"
                         + "            final {rsClassName} rspDTO = sendRequest(reqDTO, {rsClassName}.class);\n"
                         + "            rspDTOs.add(parse{itfNameUpperCase}Response(rspDTO));\n"
