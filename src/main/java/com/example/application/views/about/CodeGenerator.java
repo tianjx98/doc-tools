@@ -49,7 +49,7 @@ public class CodeGenerator {
 
     private static String getParseResponseMethod(Map<String, String> paramMap) {
         String template =
-                        "private {itfNameUpperCase}RsDTO parseResponse({rsClassName} rspDTO) {\n"
+                        "private {itfNameUpperCase}RsDTO parse{itfNameUpperCase}Response({rsClassName} rspDTO) {\n"
                                         + "        // TODO: 返回统一响应报文格式待确定 [junxiong.tian@hand-china.com, 2021/4/25 20:35]\n"
                                         + "        return null;\n" + "    }";
         return StrUtil.format(template, paramMap);
