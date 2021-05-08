@@ -29,10 +29,11 @@ public class CodeGenerator {
         final String template = "    /**\n" + "     * %s<br>\n" + "     * %s<br>\n" + "     *\n"
                         + "     * @param itfRegister 银企接口注册信息\n" + "     * @param %sRqDTOList %s 请求DTO\n"
                         + "     * @return\n" + "     */\n"
-                        + "    List<{itfNameUpperCase}RsDTO> %s(ItfRegister itfRegister, List<%sRqDTO> %sRqDTOList);";
+                        + "    List<%sRsDTO> %s(ItfRegister itfRegister, List<%sRqDTO> %sRqDTOList);";
         final String itfName = view.itfName.getValue();
         final String itfMethod = String.format(template, view.taskName.getValue(), view.bankItfName.getValue(), itfName,
-                        view.taskName.getValue(), itfName, StringUtil.firstCharToUpperCase(itfName), itfName);
+                        view.taskName.getValue(), StringUtil.firstCharToUpperCase(itfName), itfName,
+                        StringUtil.firstCharToUpperCase(itfName), itfName);
         view.gItfMethod.setValue(itfMethod);
     }
 
