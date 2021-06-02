@@ -5,7 +5,7 @@ import java.nio.file.Path;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import com.example.application.util.StringUtil;
+import com.example.application.utils.StringUtil;
 
 import cn.hutool.core.util.StrUtil;
 

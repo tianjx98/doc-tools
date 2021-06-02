@@ -5,7 +5,7 @@ import java.util.Map;
 
 import com.example.application.converter.Attr;
 import com.example.application.converter.Converter;
-import com.example.application.util.StringUtil;
+import com.example.application.utils.StringUtil;
 
 import cn.hutool.core.util.StrUtil;
 

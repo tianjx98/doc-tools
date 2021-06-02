@@ -1,4 +1,4 @@
-package com.example.application.util.split;
+package com.example.application.utils.split;
 
 import java.io.IOException;
 import java.nio.file.Files;

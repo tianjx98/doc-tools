@@ -15,11 +15,11 @@ import org.eclipse.jgit.api.errors.GitAPIException;
 import org.springframework.beans.factory.annotation.Value;
 import org.vaadin.olli.FileDownloadWrapper;
 
-import com.example.application.util.DocDownloadUtil;
-import com.example.application.util.GitUtil;
-import com.example.application.util.MarkdownResolver;
-import com.example.application.util.dto.DocDownloadDTO;
-import com.example.application.util.split.DocSegment;
+import com.example.application.utils.DocDownloadUtil;
+import com.example.application.utils.GitUtil;
+import com.example.application.utils.MarkdownResolver;
+import com.example.application.utils.dto.DocDownloadDTO;
+import com.example.application.utils.split.DocSegment;
 import com.example.application.views.main.MainView;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.CssImport;

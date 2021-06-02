@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 import org.springframework.util.StringUtils;
 
-import com.example.application.util.StringUtil;
+import com.example.application.utils.StringUtil;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

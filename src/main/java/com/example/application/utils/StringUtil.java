@@ -1,4 +1,4 @@
-package com.example.application.util;
+package com.example.application.utils;
 
 /**
  * <p>
