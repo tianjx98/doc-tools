@@ -1,8 +1,7 @@
 package com.example.application.views.main;
 
-import java.util.Optional;
-
 import com.example.application.views.about.AboutView;
+import com.example.application.views.converter.ConverterView;
 import com.example.application.views.docsplit.DocsplitView;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.ComponentUtil;
@@ -22,6 +21,8 @@ import com.vaadin.flow.component.tabs.TabsVariant;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.RouterLink;
 import com.vaadin.flow.server.PWA;
+
+import java.util.Optional;
 
 /**
  * The main view is a top-level placeholder for other views.
@@ -81,7 +82,7 @@ public class MainView extends AppLayout {
     }
 
     private Component[] createMenuItems() {
-        return new Tab[]{createTab("doc-split", DocsplitView.class), createTab("About", AboutView.class)};
+        return new Tab[]{createTab("doc-split", DocsplitView.class), createTab("About", AboutView.class), createTab("converter", ConverterView.class)};
     }
 
     private static Tab createTab(String text, Class<? extends Component> navigationTarget) {

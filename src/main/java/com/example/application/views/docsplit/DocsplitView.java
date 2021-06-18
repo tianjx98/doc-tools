@@ -1,20 +1,5 @@
 package com.example.application.views.docsplit;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
-import java.util.stream.Collectors;
-
-import javax.annotation.PostConstruct;
-
-import org.eclipse.jgit.api.errors.GitAPIException;
-import org.springframework.beans.factory.annotation.Value;
-import org.vaadin.olli.FileDownloadWrapper;
-
 import com.example.application.utils.DocDownloadUtil;
 import com.example.application.utils.GitUtil;
 import com.example.application.utils.MarkdownResolver;
@@ -31,8 +16,20 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouteAlias;
 import com.vaadin.flow.server.StreamResource;
-
 import lombok.extern.slf4j.Slf4j;
+import org.eclipse.jgit.api.errors.GitAPIException;
+import org.springframework.beans.factory.annotation.Value;
+import org.vaadin.olli.FileDownloadWrapper;
+
+import javax.annotation.PostConstruct;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Route(value = "split", layout = MainView.class)
 @RouteAlias(value = "", layout = MainView.class)
@@ -46,7 +43,9 @@ public class DocsplitView extends HorizontalLayout {
     private FileDownloadWrapper wrapper;
     TreeGrid<DocSegment> fileTree;
 
-    @Value("${config.repo-path}")
+    @Value("${config.doc-split.enable}")
+    private Boolean enableDocSplit;
+    @Value("${config.doc-split.repo-path}")
     private String repoPath;
 
     public DocsplitView() {
@@ -55,8 +54,10 @@ public class DocsplitView extends HorizontalLayout {
 
     @PostConstruct
     public void load() throws IOException {
-        addButtons();
-        addFileTree();
+        if (enableDocSplit) {
+            addButtons();
+            addFileTree();
+        }
     }
 
     private void addFileTree() throws IOException {
